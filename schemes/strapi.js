@@ -108,11 +108,11 @@ export default class LocalScheme {
 
   async logout(endpoint) {
     // Only connect to logout endpoint if it's configured
-    if (this.options.endpoints.logout) {
-      await this.$auth
-        .requestWith(this.name, endpoint, this.options.endpoints.logout)
-        .catch(() => {})
-    }
+    // if (this.options.endpoints.logout) {
+    //   await this.$auth
+    //     .requestWith(this.name, endpoint, this.options.endpoints.logout)
+    //     .catch(() => {})
+    // }
 
     // But logout locally regardless
     return this._logoutLocally()
