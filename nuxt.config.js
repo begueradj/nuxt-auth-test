@@ -61,7 +61,6 @@ module.exports = {
             propertyName: 'jwt'
           },
 
-          logout: {},
           user: {
             url: '/users/me',
             method: 'get'
