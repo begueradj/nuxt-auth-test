@@ -59,7 +59,7 @@ export default class LocalScheme {
       return this.fetchUser()
     } catch (e) {
       EventBus.$emit('error', e.response.data)
-      EventBus.$emit('debug', `Error: ${e.response.data}`)
+      EventBus.$emit('debug', `Error: ${JSON.stringify(e.response.data)}`)
       console.log(e.response.data.message)
     }
   }

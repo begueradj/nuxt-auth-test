@@ -21,7 +21,7 @@ export default {
   },
   mounted() {
     EventBus.$on('debug', msg => {
-      const now = format(new Date(), 'hh:mm:ss')
+      const now = format(new Date(), 'hh:mm:ss:SS')
       this.status.unshift(`${now}: ${msg}`)
     })
   }
