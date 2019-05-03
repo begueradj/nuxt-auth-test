@@ -22,11 +22,11 @@ export default function({ app }) {
 
     // Apply rewrites
     if (this.options.rewriteRedirects) {
-      if (name === 'login' && isRelativeURL(from) && !isSameURL(to, from)) {
+      if (name === 'Login' && isRelativeURL(from) && !isSameURL(to, from)) {
         this.$storage.setUniversal('redirect', from)
       }
 
-      if (name === 'home') {
+      if (name === 'Home') {
         const redirect =
           this.$storage.getUniversal('redirect') ||
           this.ctx.route.query.redirect
