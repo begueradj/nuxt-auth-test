@@ -34,7 +34,7 @@ export default {
   },
   mounted() {
     EventBus.$on('error', msg => {
-      this.msg = msg.message
+      this.msg = msg
       console.log('error: ', msg)
     })
   },

@@ -75,7 +75,7 @@
               </div>
               <div class="form-group">
                 <button 
-                  :disabled="$v.$invalid || success" 
+                  :disabled="$v.$invalid" 
                   class="btn btn-primary">Register</button>
               </div>
             </form>
@@ -108,7 +108,7 @@ export default {
   },
   mounted() {
     EventBus.$on('error', msg => {
-      this.msg = msg.data.message
+      this.msg = msg.data
     })
     this.$auth.logout().then(() => console.log('logged out'))
   },
@@ -138,10 +138,11 @@ export default {
         EventBus.$emit('debug', `register(): ${JSON.stringify(res.data)}`)
       } catch (e) {
         console.log(e)
+        this.success = false
         EventBus.$emit('error', e.response)
         EventBus.$emit(
           'debug',
-          `register() error: ${JSON.stringify(e.response.data.message)}`
+          `register() error: ${JSON.stringify(e.response.data)}`
         )
       }
     },

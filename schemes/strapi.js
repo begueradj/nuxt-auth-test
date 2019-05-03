@@ -60,7 +60,7 @@ export default class LocalScheme {
     } catch (e) {
       EventBus.$emit('error', e.response.data)
       EventBus.$emit('debug', `Error: ${JSON.stringify(e.response.data)}`)
-      console.log(e.response.data.message)
+      console.log(e)
     }
   }
 
