@@ -12,6 +12,7 @@ export default class LocalScheme {
     if (this.options.globalToken) {
       // Set Authorization token for all axios requests
       this.$auth.ctx.app.$axios.setHeader(this.options.tokenName, token)
+      EventBus.$emit('debug', ` _setToken(): ${token}`)
     }
   }
 
@@ -19,6 +20,7 @@ export default class LocalScheme {
     if (this.options.globalToken) {
       // Clear Authorization token for all axios requests
       this.$auth.ctx.app.$axios.setHeader(this.options.tokenName, false)
+      EventBus.$emit('debug', ` _clearToken(): ${this.options.tokenName}`)
     }
   }
 
@@ -26,8 +28,9 @@ export default class LocalScheme {
     if (this.options.tokenRequired) {
       const token = this.$auth.syncToken(this.name)
       this._setToken(token)
+      EventBus.$emit('debug', ` mounted() => this._setToken(${token})`)
     }
-
+    EventBus.$emit('debug', ` mounted() => this.$auth.fetchUserOnce()`)
     return this.$auth.fetchUserOnce()
   }
 
@@ -43,7 +46,7 @@ export default class LocalScheme {
         endpoint,
         this.options.endpoints.login
       )
-
+      EventBus.$emit('debug', `login(): ${result}`)
       if (this.options.tokenRequired) {
         const token = this.options.tokenType
           ? this.options.tokenType + ' ' + result
@@ -55,7 +58,8 @@ export default class LocalScheme {
 
       return this.fetchUser()
     } catch (e) {
-      EventBus.$emit('error', e.response.data.message)
+      EventBus.$emit('error', e.response.data)
+      EventBus.$emit('debug', `Error: ${e.response.data}`)
       console.log(e.response.data.message)
     }
   }
@@ -72,7 +76,7 @@ export default class LocalScheme {
       this.$auth.setToken(this.name, token)
       this._setToken(token)
     }
-
+    EventBus.$emit('debug', `setUserToken(): ${token}`)
     return this.fetchUser()
   }
 
@@ -89,12 +93,17 @@ export default class LocalScheme {
     }
 
     // Try to fetch user and then set
-    const user = await this.$auth.requestWith(
-      this.name,
-      endpoint,
-      this.options.endpoints.user
-    )
-    this.$auth.setUser(user)
+    try {
+      const user = await this.$auth.requestWith(
+        this.name,
+        endpoint,
+        this.options.endpoints.user
+      )
+      this.$auth.setUser(user)
+      EventBus.$emit('debug', `fetchUser(): ${JSON.stringify(user)}`)
+    } catch (e) {
+      EventBus.$emit('debug', `fetchUser() error: ${e}`)
+    }
   }
 
   async logout(endpoint) {
@@ -113,7 +122,7 @@ export default class LocalScheme {
     if (this.options.tokenRequired) {
       this._clearToken()
     }
-
+    EventBus.$emit('debug', '_logoutLocally() => this.$auth.reset()')
     return this.$auth.reset()
   }
 }

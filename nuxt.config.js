@@ -1,4 +1,6 @@
 const pkg = require('./package')
+require('dotenv').config()
+// console.log(process.env.NUXT_ENV_BASE_URL)
 
 module.exports = {
   mode: 'universal',
@@ -16,7 +18,7 @@ module.exports = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   axios: {
-    baseURL: 'https://adultredeploy.icjia-api.cloud'
+    baseURL: process.env.NUXT_ENV_BASE_URL
   },
 
   /*
@@ -39,11 +41,11 @@ module.exports = {
   */
   modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
   auth: {
-    cookie: false,
+    cookie: true,
     resetOnError: true,
     redirect: {
       login: '/login',
-      logout: '/login',
+      logout: '/',
       callback: '/login',
       home: '/'
     },
@@ -58,6 +60,7 @@ module.exports = {
             method: 'post',
             propertyName: 'jwt'
           },
+
           logout: {},
           user: {
             url: '/users/me',

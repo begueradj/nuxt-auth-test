@@ -1,18 +1,23 @@
 <template>
   <div style="padding-left: 20px;">
-    <!-- <a @click.prevent="authenticate">Login here</a> -->
-    Username: <input 
-      ref="identifier" 
-      type="text"
-      @keyup="clearError"><br>
-    Password? <input 
-      ref="password" 
-      type="password">
-    <br>
-    <input 
-      type="submit" 
-      @click.prevent="authenticate">
-    <div style="font-size: 12px; color: red; margin-top: 25px">{{ msg }}</div>
+    <div v-if="!$auth.$storage.state.loggedIn" >
+      <!-- <a @click.prevent="authenticate">Login here</a> -->
+      Username: <input 
+        ref="identifier" 
+        type="text"
+        @keyup="clearError"><br>
+      Password? <input 
+        ref="password" 
+        type="password">
+      <br>
+      <input 
+        type="submit" 
+        @click.prevent="authenticate">
+      <div style="font-size: 12px; color: red; margin-top: 25px">{{ msg }}</div>
+    </div>
+    <div v-if="$auth.$storage.state.loggedIn">
+      <button @click="logout">Logout</button>
+    </div>
   </div>
 </template>
 
@@ -29,19 +34,21 @@ export default {
   },
   mounted() {
     EventBus.$on('error', msg => {
-      this.msg = msg
+      this.msg = msg.message
+      console.log('error: ', msg)
     })
   },
   methods: {
     authenticate() {
-      this.$auth
-        .loginWith('strapi', {
-          data: {
-            identifier: this.$refs['identifier'].value,
-            password: this.$refs['password'].value
-          }
-        })
-        .then(() => console.log('logged in'))
+      this.$auth.loginWith('strapi', {
+        data: {
+          identifier: this.$refs['identifier'].value,
+          password: this.$refs['password'].value
+        }
+      })
+    },
+    logout() {
+      this.$auth.logout().then(() => console.log('logged out'))
     },
     clearError() {
       if (this.msg) {

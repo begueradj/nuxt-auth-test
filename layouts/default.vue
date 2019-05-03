@@ -3,8 +3,12 @@
     <div style="margin-bottom: 30px;">
       <nuxt-link to="/">Home</nuxt-link>
       <nuxt-link to="/secure">Secure</nuxt-link>
+      <nuxt-link to="/secure-2">Secure-2</nuxt-link>
       <nuxt-link 
-       
+        v-if="!$auth.$storage.state.loggedIn" 
+        to="/register" >Register</nuxt-link>
+      <nuxt-link 
+        v-if="!$auth.$storage.state.loggedIn" 
         to="/login">Login</nuxt-link>
       
       <span
@@ -12,12 +16,18 @@
         class="logout" 
         @click="logout">Logout</span>
     </div>
+    
     <nuxt/>
+    <debug/>
   </div>
 </template>
 
 <script>
+import Debug from '~/components/Debug'
 export default {
+  components: {
+    Debug
+  },
   methods: {
     logout() {
       this.$auth.logout().then(() => console.log('logged out'))

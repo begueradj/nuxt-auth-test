@@ -1,15 +1,14 @@
 <template>
   <div>
-    Protected page
-   
-    <br>
-    {{ $auth.user }}
+    <h1>Protected page 2</h1>
+    
   </div>
 </template>
 
 <script>
 export default {
-  middleware: 'auth'
+  middleware: 'auth',
+  methods: {}
 }
 </script>
 
