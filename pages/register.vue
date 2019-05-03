@@ -110,7 +110,9 @@ export default {
     EventBus.$on('error', msg => {
       this.msg = msg.data
     })
-    this.$auth.logout().then(() => console.log('logged out'))
+    if (this.$auth.loggedIn) {
+      this.$auth.logout().then(() => console.log('logged out'))
+    }
   },
   validations: {
     user: {
