@@ -1,6 +1,10 @@
 <template>
   <div style="margin-top: 50px;">
+    <div 
+      class="clear-btn" 
+      @click="clear"><button>CLEAR LOG</button></div>
     <div class="debug">
+     
       <div 
         v-for="(msg,index) in status" 
         :key="index" 
@@ -24,6 +28,11 @@ export default {
       const now = format(new Date(), 'hh:mm:ss:SS')
       this.status.unshift(`${now}: ${msg}`)
     })
+  },
+  methods: {
+    clear() {
+      this.status = []
+    }
   }
 }
 </script>
@@ -39,5 +48,11 @@ export default {
   padding: 15px 15px;
   font-size: 12px;
   overflow-y: scroll;
+}
+
+.clear-btn {
+  position: fixed;
+  right: 10px;
+  bottom: 220px;
 }
 </style>
