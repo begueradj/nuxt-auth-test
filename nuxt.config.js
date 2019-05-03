@@ -41,7 +41,7 @@ module.exports = {
   */
   modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
   auth: {
-    // plugins: ['~/plugins/auth.js'],
+    plugins: ['~/plugins/auth.js'],
     cookie: true,
     resetOnError: true,
     redirect: {
