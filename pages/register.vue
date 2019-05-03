@@ -116,7 +116,7 @@ export default {
     user: {
       username: { required },
       email: { required, email },
-      password: { required, minLength: minLength(2) },
+      password: { required, minLength: minLength(6) },
       confirmPassword: { required, sameAsPassword: sameAs('password') }
     }
   },
